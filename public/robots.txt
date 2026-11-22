@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /mgmt-x7k9f2/
+Disallow: /api/
+Disallow: /cart
+Disallow: /order/
+
+User-agent: Yandex
+Allow: /
+Disallow: /mgmt-x7k9f2/
+Disallow: /api/
+Disallow: /cart
+Disallow: /order/
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content
+
+Host: xn--80aaf5ajejew9h7ac.xn--p1ai
+Sitemap: https://xn--80aaf5ajejew9h7ac.xn--p1ai/sitemap.xml
