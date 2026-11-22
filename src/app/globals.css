@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+@theme {
+  --color-noir: #0c0808;
+  --color-noir-light: #161010;
+  --color-noir-card: #1a1212;
+  --color-noir-surface: #211818;
+  --color-wine: #3d0c14;
+  --color-wine-light: #5a1520;
+  --color-wine-bright: #8b2232;
+  --color-gold: #c6a24e;
+  --color-gold-light: #d4b56a;
+  --color-gold-dark: #a8873a;
+  --color-gold-muted: #8a7340;
+  --color-ivory: #f0ebe0;
+  --color-ivory-muted: #c4bca8;
+  --color-ash: #6e6560;
+  --color-ember: #2a1a10;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "DM Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #0c0808;
+  color: #f0ebe0;
+}
+
+.font-display {
+  font-family: "Cormorant Garant", "Georgia", serif;
+}
+
+/* === Noise grain overlay === */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px;
+}
+
+/* === Animations === */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes revealScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes goldShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes lineExpand {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.anim-reveal {
+  animation: revealUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.anim-scale {
+  animation: revealScale 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.anim-line {
+  animation: lineExpand 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: left;
+}
+
+/* === Gold shimmer text === */
+.text-shimmer {
+  background: linear-gradient(
+    110deg,
+    #a8873a 0%,
+    #d4b56a 25%,
+    #f0dca0 50%,
+    #d4b56a 75%,
+    #a8873a 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 4s linear infinite;
+}
+
+/* === Card system === */
+.card-lux {
+  background: #1a1212;
+  border: 1px solid rgba(198, 162, 78, 0.06);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-lux:hover {
+  border-color: rgba(198, 162, 78, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(198, 162, 78, 0.08),
+    0 24px 48px rgba(0, 0, 0, 0.4),
+    0 0 80px rgba(198, 162, 78, 0.03);
+  transform: translateY(-2px);
+}
+
+/* === Elegant separator === */
+.sep-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(198, 162, 78, 0.35), transparent);
+}
+
+/* === Input dark theme === */
+.input-dark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(198, 162, 78, 0.12);
+  color: #f0ebe0;
+  transition: all 0.3s;
+}
+
+.input-dark:focus {
+  border-color: rgba(198, 162, 78, 0.4);
+  box-shadow: 0 0 0 3px rgba(198, 162, 78, 0.08);
+  outline: none;
+}
+
+.input-dark::placeholder {
+  color: rgba(240, 235, 224, 0.25);
+}
+
+/* Select dropdown dark */
+.input-dark option {
+  background: #1a1212;
+  color: #f0ebe0;
+}
+
+select.input-dark {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c6a24e' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+/* === Product image hover/active (light version) === */
+.product-img-hover:hover .product-img-dark,
+.product-img-hover:active .product-img-dark {
+  opacity: 0;
+}
+
+.product-img-hover:hover .product-img-light,
+.product-img-hover:active .product-img-light {
+  opacity: 1;
+}
+
+/* === Custom scrollbar === */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0c0808; }
+::-webkit-scrollbar-thumb { background: #3d0c14; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #c6a24e; }
+
+/* === Selection === */
+::selection {
+  background: rgba(198, 162, 78, 0.3);
+  color: #f0ebe0;
+}

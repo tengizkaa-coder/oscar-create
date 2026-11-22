@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  sortOrder Int       @default(0)
+  products  Product[]
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  slug        String      @unique
+  description String      @default("")
+  price       Float
+  image       String      @default("")
+  categoryId  Int
+  category    Category    @relation(fields: [categoryId], references: [id])
+  volume      String      @default("")
+  abv         String      @default("")
+  inStock     Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  setItems    SetItem[]
+  orderItems  OrderItem[]
+}
+
+model ProductSet {
+  id          Int         @id @default(autoincrement())
+  name        String
+  slug        String      @unique
+  description String      @default("")
+  price       Float
+  image       String      @default("")
+  inStock     Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  items       SetItem[]
+  orderItems  OrderItem[]
+}
+
+model SetItem {
+  id         Int         @id @default(autoincrement())
+  setId      Int
+  set        ProductSet  @relation(fields: [setId], references: [id], onDelete: Cascade)
+  productId  Int?
+  product    Product?    @relation(fields: [productId], references: [id])
+  customName String?
+  quantity   Int         @default(1)
+}
+
+model Order {
+  id           Int         @id @default(autoincrement())
+  number       String      @unique
+  customerName String
+  phone        String
+  address      String
+  comment      String      @default("")
+  deliveryTime String      @default("")
+  status       String      @default("new")
+  totalPrice   Float
+  telegramMsgId Int?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  items        OrderItem[]
+}
+
+model OrderItem {
+  id        Int         @id @default(autoincrement())
+  orderId   Int
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId Int?
+  product   Product?    @relation(fields: [productId], references: [id])
+  setId     Int?
+  set       ProductSet? @relation(fields: [setId], references: [id])
+  name      String
+  quantity  Int
+  price     Float
+}
+
+model Settings {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}
